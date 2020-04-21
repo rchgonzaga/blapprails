@@ -1,54 +1,123 @@
 import { ConnectedRouter } from "connected-react-router";
 import React from "react";
+import { Button } from "antd";
 import { Provider } from "react-redux";
 import { HashRouter as Router, Route, NavLink, Switch } from "react-router-dom";
 
-import Home from "./Home";
+import { Layout, Menu, Breadcrumb } from "antd";
+import {
+  DesktopOutlined,
+  PieChartOutlined,
+  FileOutlined,
+  TeamOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  VideoCameraOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
-// const store = configureStore();
+const { Header, Content, Footer, Sider } = Layout;
+const { SubMenu } = Menu;
 
-const Navigation = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <NavLink exact className="nav-link" activeClassName="active" to="/">
-          Home
-        </NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink
-          exact
-          className="nav-link"
-          activeClassName="active"
-          to="/articles"
+class SiderDemo extends React.Component {
+  state = {
+    collapsed: false,
+  };
+
+  onCollapse = (collapsed) => {
+    console.log(collapsed);
+    this.setState({ collapsed });
+  };
+
+  render() {
+    return (
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sider
+          collapsible
+          collapsed={this.state.collapsed}
+          onCollapse={this.onCollapse}
         >
-          Articles
-        </NavLink>
-      </li>
-    </ul>
-  </nav>
-);
-
-const Main = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-    {/* <Route exact path="/articles" component={ArticleList} />
-    <Route exact path="/articles/new" component={ArticleAdd} />
-    <Route exact path="/articles/:id" component={ArticleInfo} />
-    <Route exact path="/articles/:id/edit" component={ArticleEdit} /> */}
-  </Switch>
-);
+          <div
+            style={{
+              height: "32px",
+              background: "rgba(255, 255, 255, 0.2)",
+              margin: "16px",
+            }}
+          >
+            LOGO
+          </div>
+          <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+            <Menu.Item key="1">
+              <PieChartOutlined />
+              <span>Option 1</span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <DesktopOutlined />
+              <span>Option 2</span>
+            </Menu.Item>
+            <SubMenu
+              key="sub1"
+              title={
+                <span>
+                  <UserOutlined />
+                  <span>User</span>
+                </span>
+              }
+            >
+              <Menu.Item key="3">Tom</Menu.Item>
+              <Menu.Item key="4">Bill</Menu.Item>
+              <Menu.Item key="5">Alex</Menu.Item>
+            </SubMenu>
+            <SubMenu
+              key="sub2"
+              title={
+                <span>
+                  <TeamOutlined />
+                  <span>Team</span>
+                </span>
+              }
+            >
+              <Menu.Item key="6">Team 1</Menu.Item>
+              <Menu.Item key="8">Team 2</Menu.Item>
+            </SubMenu>
+            <Menu.Item key="9">
+              <FileOutlined />
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout className="site-layout">
+          <Header className="site-layout-background" style={{ padding: 0 }}>
+            <MenuFoldOutlined
+              style={{ padding: "22px" }}
+              onClick={() => this.onCollapse(!this.state.collapsed)}
+            />
+          </Header>
+          <Content style={{ margin: "0 16px" }}>
+            <Breadcrumb style={{ margin: "16px 0" }}>
+              <Breadcrumb.Item>User</Breadcrumb.Item>
+              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            </Breadcrumb>
+            <div
+              className="site-layout-background"
+              style={{ padding: 24, minHeight: 360 }}
+            >
+              Bill is a cat.
+            </div>
+          </Content>
+          <Footer style={{ textAlign: "center" }}>
+            Ant Design ©2018 Created by Ant UED
+          </Footer>
+        </Layout>
+      </Layout>
+    );
+  }
+}
 
 const App = () => {
   return (
-    <div className="App">
-      <Router>
-        <div className="container">
-          <Navigation />
-          <Main />
-        </div>
-      </Router>
-    </div>
+    <Router>
+      <SiderDemo />
+    </Router>
   );
 };
 
