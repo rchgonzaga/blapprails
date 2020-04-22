@@ -13,7 +13,6 @@ const componentRequireContext = require.context("components", true);
 const ReactRailsUJS = require("react_ujs");
 ReactRailsUJS.useContext(componentRequireContext);
 
-import Home from "../components/Home";
 import App from "../components/App";
 
 ReactDOM.render(<App />, document.getElementById("root"));

@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Home from "./Home";
-import Dashboard from "./Dashboard";
+import Home from "./pages/farm/Home";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 export default function MainRoutes() {
   return (
