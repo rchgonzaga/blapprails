@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class Api::V1::DashboardController < ApplicationController
   def index
-    load_owners_percentage
+    load_user_farms
   end
 
-  private 
+  private
 
-  def load_owners_percentage
-    @percentage_with_owner = current_user.farms.order('created_at DESC').map(&:farm_has_onwer)
+  def load_user_farms
+    @user_farms = current_user.farms.order('created_at DESC')
   end
 end
