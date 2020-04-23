@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_145507) do
+ActiveRecord::Schema.define(version: 2020_04_23_032206) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -58,6 +58,32 @@ ActiveRecord::Schema.define(version: 2020_04_19_145507) do
     t.index ["user_id"], name: "index_farms_on_user_id"
   end
 
+  create_table "group_privileges", force: :cascade do |t|
+    t.integer "group_id", null: false
+    t.integer "privilege_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_group_privileges_on_group_id"
+    t.index ["privilege_id"], name: "index_group_privileges_on_privilege_id"
+  end
+
+  create_table "group_roles", force: :cascade do |t|
+    t.integer "group_id", null: false
+    t.integer "role_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_group_roles_on_group_id"
+    t.index ["role_id"], name: "index_group_roles_on_role_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "owners", force: :cascade do |t|
     t.string "fistName"
     t.string "lastName"
@@ -66,6 +92,33 @@ ActiveRecord::Schema.define(version: 2020_04_19_145507) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["document_type_id"], name: "index_owners_on_document_type_id"
+  end
+
+  create_table "privileges", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "controller"
+    t.string "action"
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "role_users", force: :cascade do |t|
+    t.integer "role_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["role_id"], name: "index_role_users_on_role_id"
+    t.index ["user_id"], name: "index_role_users_on_user_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "role_name"
+    t.text "role_description"
+    t.boolean "is_active"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -85,5 +138,11 @@ ActiveRecord::Schema.define(version: 2020_04_19_145507) do
   add_foreign_key "farm_has_owners", "farms"
   add_foreign_key "farm_has_owners", "owners"
   add_foreign_key "farms", "users"
+  add_foreign_key "group_privileges", "groups"
+  add_foreign_key "group_privileges", "privileges"
+  add_foreign_key "group_roles", "groups"
+  add_foreign_key "group_roles", "roles"
   add_foreign_key "owners", "document_types"
+  add_foreign_key "role_users", "roles"
+  add_foreign_key "role_users", "users"
 end
